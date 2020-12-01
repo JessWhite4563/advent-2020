@@ -3,19 +3,17 @@ from generic import AdventRunner
 
 class AdventDayOne(AdventRunner):
     def __init__(self):
-        self.additionalConfig = {}
-        self.results = []
         super()
+        self.results = []
 
     def processData(self, file_data):
-        print(self.additionalConfig)
         self.loopDepth(file_data, 0, self.additionalConfig['depth'])
-        print(self.results)
+        print('output: ' + str(self.results))
         
         running = 1
         for num in self.results:
             running = running * num
-        print(running)
+        print('result: ' + str(running))
 
     def loopDepth(self, file_data, value, depth):
         newDepth = depth - 1
@@ -32,8 +30,6 @@ class AdventDayOne(AdventRunner):
                         return True
         return False
 
-
-
 advent = AdventDayOne()
 advent.additionalConfig = {'depth': 3, 'target': 2020}
-advent.runScript("C:/Users/Jessica/Documents/repos/advent/data/day-1/input.txt")
+advent.runScript("./data/day-1/input.txt")
