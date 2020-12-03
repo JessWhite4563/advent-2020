@@ -1,9 +1,8 @@
 from generic import AdventRunner
-import copy
 
 class AdventDayTwo(AdventRunner):
     def __init__(self):
-        super()
+        super().__init__()
         self.results = []
 
     def processData(self, file_data):
@@ -41,4 +40,5 @@ class AdventDayTwo(AdventRunner):
 
 
 advent = AdventDayTwo()
-advent.runScript("./data/day-2/input.txt")
+advent.addData("./data/day-2/input.txt")
+advent.runScript()

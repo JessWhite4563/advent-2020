@@ -3,7 +3,7 @@ import copy
 
 class AdventDayOne(AdventRunner):
     def __init__(self):
-        super()
+        super().__init__()
         self.results = []
 
     def processData(self, file_data):
@@ -35,5 +35,6 @@ class AdventDayOne(AdventRunner):
         return False
 
 advent = AdventDayOne()
+advent.addData("./data/day-1/input.txt")
 advent.additionalConfig = {'depth': 3, 'target': 2020}
-advent.runScript("./data/day-1/input.txt")
+advent.runScript()
