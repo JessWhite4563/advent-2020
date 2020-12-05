@@ -17,7 +17,7 @@ class AdventRunner (object):
     def runScript(self):
         return self.processData(self.imported_file)
 
-    def OutputDebug(self, output_data):
+    def outputDebug(self, output_data):
         if self.additionalConfig['verbose']:
             print(output_data)
 

@@ -16,8 +16,8 @@ class AdventDayThree(AdventRunner):
                 if self.isTree([x, modified_index], file_data):
                     tree_count += 1
 
-        self.OutputDebug("Total Trees :"+ str(tree_count))
-        self.OutputDebug("Total Non Trees :"+ str(course_length - tree_count))
+        self.outputDebug("Total Trees :"+ str(tree_count))
+        self.outputDebug("Total Non Trees :"+ str(course_length - tree_count))
         return tree_count
 
     def isTree(self, position, file_data):
@@ -29,7 +29,7 @@ class AdventDayThree(AdventRunner):
         else:
             newstring = 'O'
         print_row = print_row[:position[0]] + newstring + print_row[position[0] + 1:]
-        self.OutputDebug(print_row)
+        self.outputDebug(print_row)
         return cell == '#'
 
 configs = [
