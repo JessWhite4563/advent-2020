@@ -8,9 +8,13 @@ class AdventRunner (object):
         self.import_copy = None
 
     def readFile(self, filename):
-        f = open(filename, "r")
-        result = f.read()
-        return result
+        try:
+            f = open(filename, "r")
+            result = f.read()
+            return result
+        except FileNotFoundError:
+            print("WARNING - No File Found")
+            return ''
 
     def addData(self, filename):
         file_data = self.readFile(filename)
