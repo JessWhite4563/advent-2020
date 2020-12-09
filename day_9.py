@@ -7,7 +7,6 @@ class AdventDayNine(AdventRunner):
         self.tally_position = 0
         self.match = []
         self.preamble = 25
-        self.target = 375054920
 
     def processData(self, file_data):
         if self.additionalConfig['stage'] == 1:
@@ -35,12 +34,12 @@ class AdventDayNine(AdventRunner):
                         current_values.append(new_value)
                         total += new_value
 
-                        if total == self.target:
+                        if total == self.additionalConfig['target']:
                             self.match.append(current_values)
                             current_values.sort()
-                            print(current_values)
+                            self.outputDebug(current_values)
                             return current_values[0] + current_values[len(current_values)-1]
-                        elif total > self.target:
+                        elif total > self.additionalConfig['target']:
                             current_values = []
                             total = 0
                             running = False
@@ -70,5 +69,9 @@ class AdventDayNine(AdventRunner):
 
 advent = AdventDayNine()
 advent.addData("./data/day-9/input.txt")
-advent.additionalConfig = {'verbose': False, 'stage':2}
-print(advent.runScript())
+advent.additionalConfig = {'verbose': False, 'stage':1}
+total = advent.runScript()
+print("Part 1: %i" %(total))
+
+advent.additionalConfig = {'verbose': False, 'stage':2, 'target': total}
+print("Part 2: %i" % (advent.runScript()))
