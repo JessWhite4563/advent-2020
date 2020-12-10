@@ -1,11 +1,12 @@
 import copy
 
 class AdventRunner (object):
-    def __init__(self):
+    def __init__(self, input_is_numbers=False):
         super().__init__()
         self.additionalConfig = {}
         self.imported_file = None
         self.import_copy = None
+        self.input_numbers = input_is_numbers
 
     def readFile(self, filename):
         try:
@@ -19,6 +20,13 @@ class AdventRunner (object):
     def addData(self, filename):
         file_data = self.readFile(filename)
         processed = file_data.split("\n")
+        number_array = []
+        if self.input_numbers:
+            for line in processed:
+                if line != '':
+                    number_array.append(int(line))
+            processed = number_array
+
         self.imported_file = processed
         self.import_copy = copy.copy(processed)
 
