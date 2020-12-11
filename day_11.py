@@ -15,6 +15,9 @@ class AdventDayEleven(AdventRunner):
         return dataset
 
     def processData(self, file_data):
+        task = self.additionalConfig['task']
+        limit = self.additionalConfig['limit']
+
         dataset = self.initial_setup(file_data)
         running = True
 
@@ -27,15 +30,21 @@ class AdventDayEleven(AdventRunner):
                     position = dataset[index][inner_index]
 
                     if position == 2:
-                        count = self.getAdjacentSeats([index, inner_index], dataset)[0]
-                        if count > 3:
+                        if task == 1:
+                            count = self.getAdjacentSeats([index, inner_index], dataset)
+                        else:
+                            count = self.getRadialSeats([index, inner_index], dataset)
+                        if count > limit:
                             new_row.append(1)
                             changes +=1
                         else:
                             new_row.append(2)
 
                     elif position == 1:
-                        count = self.getAdjacentSeats([index, inner_index], dataset)[0]
+                        if task == 1:
+                            count = self.getAdjacentSeats([index, inner_index], dataset)
+                        else:
+                            count = self.getRadialSeats([index, inner_index], dataset)
                         if count == 0:
                             new_row.append(2)
                             changes +=1
@@ -61,7 +70,6 @@ class AdventDayEleven(AdventRunner):
 
     def getAdjacentSeats(self, seatPosition, file_data):
         occupied_count = 0
-        unoccupied_count = 0
 
         low_x = seatPosition[0] if seatPosition[0] - 1 < 0 else (seatPosition[0] -1)
         high_x = (seatPosition[0] + 1) if seatPosition[0] + 2 > len(file_data) else (seatPosition[0] +2)
@@ -76,11 +84,52 @@ class AdventDayEleven(AdventRunner):
                 else:
                     if file_data[index][inner_index] == 2:
                         occupied_count += 1
-                    elif file_data[index][inner_index] == 1:
-                        unoccupied_count += 1
-        return (occupied_count, unoccupied_count)
+        return occupied_count
+
+    def getRadialSeats(self, seatPosition, dataset):
+        surrounding = [None] * 10
+        running = True
+
+        index = 1
+        checked = 0
+        while running:
+            vert = [seatPosition[0] - index, seatPosition[0], seatPosition[0] + index]
+            horz = [seatPosition[1] - index, seatPosition[1], seatPosition[1] + index]
+
+            counter = 0
+            for y in vert:
+                for x in horz:
+                    if seatPosition[0] == y and seatPosition[1] == x:
+                        continue
+
+                    if surrounding[counter] == None:
+                        if y > -1 and y < len(dataset):
+                            if x > -1 and x < len(dataset[y]):
+                                seat = dataset[y][x]
+                                if seat == 1 or seat == 2:
+                                    surrounding[counter] = seat
+                                    checked += 1
+                            else:
+                                if surrounding[counter] != 0:
+                                    surrounding[counter] = 0
+                                    checked += 1
+                        else:
+                            if surrounding[counter] != 0:
+                                surrounding[counter] = 0
+                                checked += 1
+                    counter += 1
+            
+            if checked > 7:
+                running = False
+            index += 1
+
+        occupied = 0
+        for item in surrounding:
+            if item == 2:
+                occupied += 1
+        return occupied
 
 advent = AdventDayEleven()
 advent.addData("./data/day-11/input.txt")
-advent.additionalConfig = {'verbose': False}
+advent.additionalConfig = {'verbose': False, 'task': 2, 'limit': 4}
 print(advent.runScript())
